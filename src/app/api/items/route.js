@@ -41,7 +41,7 @@ export async function POST(req){
     }
 
 
-    // ev en check av vilken användare som gör detta
+    // TODO: ev en check av vilken användare som gör detta
     // const userId = req.headers.get('userId');
     // console.log("User making the req: ", userId);
 
@@ -59,10 +59,16 @@ export async function POST(req){
         return NextResponse.json(
             {
                 message: "Invalid data sent for book creation"
+            }, 
+            {
+                status: 400
             }
-        )
+        );
     }
     
+    return NextResponse.json(newItem, {
+        status: 201
+    });
 
 }
 
