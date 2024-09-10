@@ -1,3 +1,4 @@
+import { validateItemData } from "@/app/utils/apiHelpers";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -46,12 +47,23 @@ export async function POST(req){
     // console.log("User making the req: ", userId);
 
     //TODO: Validering av data här
+    const [hasErrors, errors] = validateItemData(body);
+    if(hasErrors) {
+        return NextResponse.json({
+            message: errors
+        }, {
+            status: 400
+        })
+    }
 
     let newItem;
     try {
         newItem = await prisma.item.create({
             data: {
-                name: body.name
+                name: body.name,
+                description: body.description,
+                quantity: body.quantity,
+                category: body.category
             }
         })
     } catch (error) {

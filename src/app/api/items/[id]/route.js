@@ -21,6 +21,46 @@ export async function GET(req, options) {
 }
 
 
+export async function PUT(req, options) {
+    const id = options.params.id;
+
+    let body;
+
+    try{
+        body = await req.json()
+    } catch(error) {
+        return NextResponse.json({
+            message: "A valid JSON object has to be sent"
+        }, {
+            status: 400
+        })
+    }
+
+    //TODO validering här
+
+
+    try {
+        const updatedItem = await prisma.item.update({
+            where: {
+                id: Number(id)
+            },
+            data: {
+                name: body.name, // undersök att använda optional här? ifall uppdateringen inte ska ändra alla värden?
+                description: body.description,
+                quantity: body.quantity,
+                category: body.category
+            }      
+        })
+
+        return NextResponse.json(updatedBook)
+    } catch(error) {
+        return NextResponse.json({
+            message: error.message
+        }, {
+            status: 500
+        })
+    }
+}
 
 
 export async function DELETE(req, options) {
