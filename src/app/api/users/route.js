@@ -29,8 +29,7 @@ export async function GET(req){
 };
 
 
-//exportera
-
+//lägg till en POST för users här. kanske överflödigt då det egentligen bara ska ske via ui: n men vill kunna troubleshoota
 
 
 
