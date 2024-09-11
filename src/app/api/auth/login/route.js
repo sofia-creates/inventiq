@@ -2,8 +2,8 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-import { signJWT } from "@/utils/helpers/authHelpers";
-
+// import { signJWT } from "@/utils/authHelpers";
+import { signJWT } from "@/app/utils/authHelpers";
 
 const prisma = new PrismaClient();
 

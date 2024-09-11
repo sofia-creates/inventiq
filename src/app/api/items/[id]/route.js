@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { validateItemData } from "@/app/utils/apiHelpers";
 
 const prisma = new PrismaClient();
 
@@ -36,7 +37,19 @@ export async function PUT(req, options) {
         })
     }
 
-    //TODO validering här
+    //TODO? kolla vilken användare som gör requesten?
+    // const userId = req.headers.get('userId')
+    // console.log("User making the req: ", userId)
+
+    //validering
+    const [hasErrors, errors] = validateItemData(body);
+    if(hasErrors) {
+        return NextResponse.json({
+            message: errors
+        }, {
+            status: 400
+        })
+    }
 
 
     try {
@@ -52,7 +65,7 @@ export async function PUT(req, options) {
             }      
         })
 
-        return NextResponse.json(updatedBook)
+        return NextResponse.json(updatedItem)
     } catch(error) {
         return NextResponse.json({
             message: error.message
