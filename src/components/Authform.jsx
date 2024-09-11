@@ -20,40 +20,50 @@ function AuthForm() {
     async function handleSubmit(e) {
         e.preventDefault();
         setError("");
+        console.log("attempting handleSubmit()");
 
         const url = isLogin ? "/api/auth/login" : "/api/auth/register"; //definiera vad url ska vara baserat på om statet isLogin är satt på true eller false. om isLogin är true, vilket är default, skickas man till login sidan, annars till register sidan
 
-        const response = await fetch(url, { //gör ett anrop till aktuella url:en som definierats ovan
-            method: "POST", //gör en POST request, den som definerats för urlens sida. det skapar även en TOKEN
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email,
-                password,
-                name
-            })
-        })
-        console.log("attempting post request");
-        
-        if(response.ok) {
-            console.log("response is ok")
-            const data = await response.json();
 
-            console.log("data", data);
-            localStorage.setItem("@library/token", data.token); //HÄR sätter den in tokenen som skapats i POST requesten i localStorage. 
-            auth.setToken(data.token);
-            router.push("/users"); //tror det ska vara users här?
-            return; //ska den verkligen vara här??
+        console.log(url);
+
+        try {
+            const response = await fetch(url, { //gör ett anrop till aktuella url:en som definierats ovan
+                method: "POST", //gör en POST request, den som definerats för urlens sida. det skapar även en TOKEN
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    name
+                })
+            })
+    
+            console.log("2");
+    
+            if(response.ok) {
+                console.log("response is ok")
+                const data = await response.json();
+    
+                console.log("data", data);
+                localStorage.setItem("@library/token", data.token); //HÄR sätter den in tokenen som skapats i POST requesten i localStorage. 
+                auth.setToken(data.token);
+                router.push("/users"); //tror det ska vara users här?
+                return; //ska den verkligen vara här??
+            }
+            setError("Invalid login credentials");
+
+        } catch(error){
+            console.error("Network or other error:", error);
+            setError("An error occurred. Please try again.");
         }
-        setError("Invalid login credentials");
     }
 
     console.log("Auth", auth);
 
     return (
         <div>
-            AuthForm
             <form className="form bg-white" onSubmit={handleSubmit}>
         <div className="form__group">
           <label className="form__label">Email</label>
@@ -91,7 +101,7 @@ function AuthForm() {
           </div>
         )}
         {error && <p className="text-red-500">{error}</p>}
-        <button className="form__button form__button--primary">
+        <button className="form__button form__button--primary" type="submit">
           {isLogin ? "Login" : "Register"}
         </button>
         <p className="form__text">...or</p>
@@ -103,7 +113,7 @@ function AuthForm() {
               setIsLogin(!isLogin);
             }}
           >
-            {!isLogin ? "Login" : "Register"}
+            {!isLogin ? "Go to Login" : "Go to Register"}
           </button>
         </div>
       </form>
