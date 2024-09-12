@@ -41,8 +41,8 @@ export async function middleware(req) {
 
 export const config = {
   matcher: [
-    "/api/items/",
-    "/api/items/:path*",
+    // "/api/items/",
+    // "/api/items/:path*",
     //"/api/users/:path*",
     "/api/users/me"
   ],

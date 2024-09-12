@@ -10,7 +10,7 @@ function AuthForm() {
     const router = useRouter();
     const auth = useAuth();
 
-    const [email, setEmail] = useState("test+vortals@testsson.com");
+    const [email, setEmail] = useState("test@testsson.com");
     const [password, setPassword] = useState("123123abc");
     const [name, setName] = useState("");
     const [error, setError] = useState("")
@@ -23,7 +23,6 @@ function AuthForm() {
         console.log("attempting handleSubmit()");
 
         const url = isLogin ? "/api/auth/login" : "/api/auth/register"; //definiera vad url ska vara baserat på om statet isLogin är satt på true eller false. om isLogin är true, vilket är default, skickas man till login sidan, annars till register sidan
-
 
         console.log(url);
 
@@ -40,7 +39,7 @@ function AuthForm() {
                 })
             })
     
-            console.log("2");
+            console.log("checkpoint 1");
     
             if(response.ok) {
                 console.log("response is ok")
@@ -49,8 +48,8 @@ function AuthForm() {
                 console.log("data", data);
                 localStorage.setItem("@library/token", data.token); //HÄR sätter den in tokenen som skapats i POST requesten i localStorage. 
                 auth.setToken(data.token);
-                router.push("/users"); //tror det ska vara users här?
-                return; //ska den verkligen vara här??
+                router.push("/items"); //router navigerar en till en annan sida - sedan ska denna skicka en till en page sida för items
+                return; 
             }
             setError("Invalid login credentials");
 

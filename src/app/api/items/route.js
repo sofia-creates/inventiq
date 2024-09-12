@@ -62,7 +62,7 @@ export async function POST(req){
             data: {
                 name: body.name,
                 description: body.description,
-                quantity: body.quantity,
+                quantity: Number(body.quantity),
                 category: body.category
             }
         })
@@ -70,7 +70,7 @@ export async function POST(req){
         console.log(error.message)
         return NextResponse.json(
             {
-                message: "Invalid data sent for book creation"
+                message: "Invalid data sent for item creation"
             }, 
             {
                 status: 400

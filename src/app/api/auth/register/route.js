@@ -8,9 +8,11 @@ const prisma = new PrismaClient();
 
 //POST function
 export async function POST(req){
+    console.log("POST request attempted on /register/")
     let body;
     try {
         body = await req.json();
+        console.log("body is: " , body)
         if(!body.email || !body.password || !body.name){
             throw new Error();
         }
