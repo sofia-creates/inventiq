@@ -5,12 +5,21 @@ import { useState } from "react";
 
 import { ItemCategory } from "@/data/categories";
 
-function EditFormModal() {
+function EditFormModal({ isOpen, onClose }) {
   //Öppna och stänga modalen
+  if (!isOpen) return null;
 
   //hämta id för det aktuella itemet
 
   //handsubmit(e) functkion som inkluderar en fetch
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    //fetch här
+
+    onClose(); // Close the modal after form submission
+  };
 
   return (
     <div>

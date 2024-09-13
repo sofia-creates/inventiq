@@ -1,8 +1,9 @@
-//"use client"; // "to be rendered on the client-side rather than on the server" next.js grej
+"use client"; // "to be rendered on the client-side rather than on the server" next.js grej
 
 import DeleteButton from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { EditFormModal } from "./EditFormModal";
+import { useState } from "react";
 
 // importera grejer
 // import { useEffect, useState } from "react";
@@ -18,18 +19,6 @@ async function ItemsContainer() {
     .catch((error) => {
       console.log("failed to get items, error is: ", error);
     });
-
-  async function deleteItem(id) {
-    //Hitta rätt id
-    const itemToDeleteId = id;
-    //gör fetchen
-    await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + "/api/items" + itemToDeleteId,
-      {
-        method: "DELETE",
-      }
-    );
-  }
 
   //kontrollerar att edit modalen öppnas och stängs
   const [isModalOpen, setIsModalOpen] = useState(false);

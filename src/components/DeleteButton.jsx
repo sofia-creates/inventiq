@@ -7,6 +7,7 @@ function DeleteButton({ item }) {
   async function deleteItem() {
     //Hitta rätt id
     const itemToDeleteId = item.id;
+
     //gör fetchen
     const response = await fetch(
       process.env.NEXT_PUBLIC_BASE_URL + "/api/items/" + itemToDeleteId,
@@ -28,4 +29,4 @@ function DeleteButton({ item }) {
   );
 }
 
-export default ItemActions;
+export default DeleteButton;
