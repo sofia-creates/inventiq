@@ -1,16 +1,32 @@
-"use client"; // "to be rendered on the client-side rather than on the server" next.js grej
+//"use client"; // "to be rendered on the client-side rather than on the server" next.js grej
 
 import DeleteButton from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { EditFormModal } from "./EditFormModal";
 import { useState } from "react";
 
-// importera grejer
-// import { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { useAuth } from "@/context/auth" ;
+//// Server-side data fetching - to get around clientside & serverside issues
+// export async function getServerSideProps() {
+//   //hämta in itemslista
+//   const response = await fetch(
+//     process.env.NEXT_PUBLIC_BASE_URL + "/api/items",
+//     {
+//       cache: "no-cache",
+//     }
+//   )
+//     .then((response) => response.json())
+//     .catch((error) => {
+//       console.log("failed to get items, error is: ", error);
+//     });
+//   const items = await response.json();
+
+//   return {
+//     props: { items }, // Pass the items to the component as props
+//   };
+// }
 
 async function ItemsContainer() {
+  //om återgång till getServerSideProps, lägg till {items} som argument
   //hämta in itemslista
   const items = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/items", {
     cache: "no-cache",
@@ -41,11 +57,11 @@ async function ItemsContainer() {
       <h2>Items in inventory</h2>
 
       {/* edit modal */}
-      <EditFormModal
+      {/* <EditFormModal
         isOpen={isModalOpen}
         onClose={closeModal}
         item={selectedItem}
-      />
+      /> */}
 
       <section className="flex flex-col items-center justify-center gap-2 itemList">
         {items &&
@@ -57,7 +73,7 @@ async function ItemsContainer() {
               <i>Category: </i>
               {item.category} <br />
               <DeleteButton item={item} />
-              <button onClick={() => openModal(item)} />
+              <button onClick={() => openModal(item)}>Edit</button>
             </li>
           ))}
       </section>
