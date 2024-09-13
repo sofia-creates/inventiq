@@ -9,8 +9,9 @@ export default function ItemsPage() {
     <div>
       <Header/>
       <main >
-      <h2>Items</h2>
-      <ItemForm/>
+      <div className="formContainer">
+        <ItemForm/>
+      </div>
       <ItemsContainer/>
       </main>
     </div>

@@ -80,13 +80,14 @@ export async function DELETE(req, options) {
     const id = options.params.id
 
     try{
-        await prisma.book.delete({
+        await prisma.item.delete({
             where: { id: Number(id) }
         })
         return new Response(null, {
             status: 204
         })
     } catch(error) {
+        console.log("error", error)
         return NextResponse.json(error) //TODO: det här ska egentligen vara en object 404 response, men den ska länkas in. fixa senare
     }
 }

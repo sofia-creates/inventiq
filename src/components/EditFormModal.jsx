@@ -1,63 +1,27 @@
-"use client"; // "to be rendered on the client-side rather than on the server" next.js grej
+"use client";
 
-// importera grejer
+//importera grejer
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/auth";
 
 import { ItemCategory } from "@/data/categories";
 
-function ItemForm() {
-  const auth = useAuth(); //för autentisering, ta bort eller lägg till senare
+function EditFormModal() {
+  //Öppna och stänga modalen
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [category, setCategory] = useState("");
-  const [error, setError] = useState("");
+  //hämta id för det aktuella itemet
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    const response = await fetch("/api/items", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify({
-        name,
-        description,
-        quantity,
-        category,
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      return;
-    }
-  }
-
-  //  if(!auth.token){
-  //     return (
-  //         <div>
-  //             You have to be logged in to create an item!
-  //         </div>
-  //     )
-  //  } // ta tillbaka sen, just nu blockar den allt, LÖS!
+  //handsubmit(e) functkion som inkluderar en fetch
 
   return (
     <div>
-      <h2>New item</h2>
+      <h2>Edit item</h2>
       <form onSubmit={handleSubmit} className="form">
         <div className="form_group">
           <label className="form_label">Item name</label>
           <input
             type="text"
             className="form__input"
-            value={name}
+            value={name} //fyll i vad det är här sedan innan sen också.
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -117,4 +81,4 @@ function ItemForm() {
   );
 }
 
-export default ItemForm;
+export default EditFormModal;
