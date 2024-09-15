@@ -2,8 +2,8 @@
 
 import DeleteButton from "./DeleteButton";
 import { EditButton } from "./EditButton";
-import { EditFormModal } from "./EditFormModal";
-import { useState } from "react";
+// import { EditFormModal } from "./EditFormModal";
+// import { useState } from "react";
 
 //// Server-side data fetching - to get around clientside & serverside issues
 // export async function getServerSideProps() {
@@ -25,8 +25,9 @@ import { useState } from "react";
 //   };
 // }
 
-async function ItemsContainer() {
+async function ItemsContainer({ onEditButtonClick }) {
   //om återgång till getServerSideProps, lägg till {items} som argument
+
   //hämta in itemslista
   const items = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/items", {
     cache: "no-cache",
@@ -36,33 +37,25 @@ async function ItemsContainer() {
       console.log("failed to get items, error is: ", error);
     });
 
-  //kontrollerar att edit modalen öppnas och stängs
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  // //kontrollerar att edit modalen öppnas och stängs med useState
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [selectedItem, setSelectedItem] = useState(null);
 
-  const openModal = (item) => {
-    setIsModalOpen(true);
-    setSelectedItem(item); // Set the selected item
-  };
+  // const openModal = (item) => {
+  //   setIsModalOpen(true);
+  //   setSelectedItem(item); // Set the selected item
+  // };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedItem(null); // Clear the selected item
-  };
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  //   setSelectedItem(null); // Clear the selected item
+  // };
 
   //async function editItem() {}
 
   return (
     <div className="flex min-h-screen flex-col items-center  p-24">
       <h2>Items in inventory</h2>
-
-      {/* edit modal */}
-      <EditFormModal
-        className="hide"
-        // isOpen={isModalOpen}
-        // onClose={closeModal}
-        // item={selectedItem}
-      />
 
       <section className="flex flex-col items-center justify-center gap-2 itemList">
         {items &&
@@ -74,7 +67,8 @@ async function ItemsContainer() {
               <i>Category: </i>
               {item.category} <br />
               <DeleteButton item={item} />
-              <button onClick={() => openModal(item)}>Edit</button>
+              <EditButton onClick={onEditButtonClick} item={item} />
+              {/* <button onClick={toggleHide}>Edit</button> */}
               {/* <button onClick={() => openModal(item)}>Edit</button> */}
             </li>
           ))}

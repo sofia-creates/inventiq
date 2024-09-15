@@ -5,9 +5,9 @@ import { useState } from "react";
 
 import { ItemCategory } from "@/data/categories";
 
-function EditFormModal({ isOpen, onClose }) {
+export default function EditFormModal({ isOpen, onClose }) {
   //Öppna och stänga modalen
-  if (!isOpen) return null;
+  if (!isOpen) return null; //om modalen inte är öppen, rendera ingenting
 
   //hämta id för det aktuella itemet
 
@@ -21,10 +21,41 @@ function EditFormModal({ isOpen, onClose }) {
     onClose(); // Close the modal after form submission
   };
 
+  //   async function editItem() {
+  //     //Hitta rätt id
+  //     const itemToEditId = item.id;
+
+  //     //Öppna formulär
+
+  //     //Fyll formulär med nuvarande datan mha en get request
+
+  //     // lägg följande fetch på submitknappen i formuläret
+
+  //     //Gör fetchen
+  //     const response = await fetch(
+  //       process.env.NEXT_PUBLIC_BASE_URL + "/api/items/" + itemToEditId,
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           name: updatedName,
+  //           description: updatedDescription,
+  //           quantity: updatedQuantity,
+  //           category: updatedCategory,
+  //         }),
+  //       }
+  //     );
+  //     if (response.ok) {
+  //       router.refresh();
+  //     }
+  //   }
+
   return (
     <div>
       <h2>Edit item</h2>
-      <form onSubmit={handleSubmit} className="form">
+      {/* <form onSubmit={handleSubmit} className="form">
         <div className="form_group">
           <label className="form_label">Item name</label>
           <input
@@ -83,11 +114,11 @@ function EditFormModal({ isOpen, onClose }) {
         </div>
 
         <button className="submitBtn" type="submit">
-          Create new item
+          Update item
         </button>
-      </form>
+      </form> */}
     </div>
   );
 }
 
-export default EditFormModal;
+//export default EditFormModal;
