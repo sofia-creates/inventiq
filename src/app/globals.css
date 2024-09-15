@@ -149,7 +149,9 @@ body {
 
 /*CUSTOM CSS*/
 
-
+.hide{
+  display: none;
+}
 
 
 .submitBtn{

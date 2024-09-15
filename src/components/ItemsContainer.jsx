@@ -57,11 +57,12 @@ async function ItemsContainer() {
       <h2>Items in inventory</h2>
 
       {/* edit modal */}
-      {/* <EditFormModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        item={selectedItem}
-      /> */}
+      <EditFormModal
+        className="hide"
+        // isOpen={isModalOpen}
+        // onClose={closeModal}
+        // item={selectedItem}
+      />
 
       <section className="flex flex-col items-center justify-center gap-2 itemList">
         {items &&
@@ -74,6 +75,7 @@ async function ItemsContainer() {
               {item.category} <br />
               <DeleteButton item={item} />
               <button onClick={() => openModal(item)}>Edit</button>
+              {/* <button onClick={() => openModal(item)}>Edit</button> */}
             </li>
           ))}
       </section>
