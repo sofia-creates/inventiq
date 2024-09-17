@@ -1,9 +1,9 @@
-//"use client"; // "to be rendered on the client-side rather than on the server" next.js grej
+"use client"; // "to be rendered on the client-side rather than on the server" next.js grej
 
 import DeleteButton from "./DeleteButton";
 import { EditButton } from "./EditButton";
-// import { EditFormModal } from "./EditFormModal";
-// import { useState } from "react";
+import EditFormModal from "./EditFormModal";
+import { useState, useEffect } from "react";
 
 //// Server-side data fetching - to get around clientside & serverside issues
 // export async function getServerSideProps() {
@@ -25,55 +25,103 @@ import { EditButton } from "./EditButton";
 //   };
 // }
 
-async function ItemsContainer({ onEditButtonClick }) {
+function ItemsContainer({ onEditButtonClick }) {
   //om återgång till getServerSideProps, lägg till {items} som argument
 
+  // Funktion för att hämta alla items (initialt)
   //hämta in itemslista
-  const items = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/items", {
-    cache: "no-cache",
-  })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.log("failed to get items, error is: ", error);
-    });
+  // async function handleGetItems(e) {
+  //   const items = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/items", {
+  //     cache: "no-cache",
+  //   })
+  //     .then((response) => response.json())
+  //     .catch((error) => {
+  //       console.log("failed to get items, error is: ", error);
+  //     });
+  // }
 
-  // //kontrollerar att edit modalen öppnas och stängs med useState
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [selectedItem, setSelectedItem] = useState(null);
+  const [item, setItem] = useState(); // detta är till edit - hämtar det aktuella itemet som ska ändras
 
-  // const openModal = (item) => {
-  //   setIsModalOpen(true);
-  //   setSelectedItem(item); // Set the selected item
-  // };
+  const [items, setItems] = useState([]); //detta är för GET requesten som skriver ut alla items
 
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-  //   setSelectedItem(null); // Clear the selected item
-  // };
+  async function handleGetItems() {
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/items",
+        {
+          cache: "no-cache",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch items");
+      }
+
+      let itemsData = await response.json();
+      setItems(itemsData);
+      //console.log(items);
+
+      return items; // Return the fetched items
+    } catch (error) {
+      console.error("Failed to get items, error is:", error);
+      return []; // Return an empty array in case of an error
+    }
+  }
+
+  //kör hämtning av items
+  useEffect(() => {
+    handleGetItems();
+    console.log(items);
+  }, []); //useeffect: när saken i bracketsen händer, är sann, gör saken inom måsvingar. är brackets tom så kör när componenten mountas aka renderas
 
   //async function editItem() {}
 
-  return (
-    <div className="flex min-h-screen flex-col items-center  p-24">
-      <h2>Items in inventory</h2>
+  //öppna och stänga editmodal
+  //skapa en useState
+  // State to control the modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-      <section className="flex flex-col items-center justify-center gap-2 itemList">
-        {items &&
-          items.map((item) => (
-            <li>
-              <strong>{item.name}</strong>
-              <i> Description: </i>
-              {item.description} .<i>Quantity:</i> {item.quantity} .
-              <i>Category: </i>
-              {item.category} <br />
-              <DeleteButton item={item} />
-              <EditButton onClick={onEditButtonClick} item={item} />
-              {/* <button onClick={toggleHide}>Edit</button> */}
-              {/* <button onClick={() => openModal(item)}>Edit</button> */}
-            </li>
-          ))}
-      </section>
-    </div>
+  // Function to open the modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <>
+      {/* edit modal */}
+      <EditFormModal
+        item={item}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        // item={selectedItem}
+      />
+
+      <div className="flex min-h-screen flex-col items-center  p-24">
+        <h2>Items in inventory</h2>
+
+        <section className="flex flex-col items-center justify-center gap-2 itemList">
+          {items &&
+            items.map((item) => (
+              <li>
+                <strong>{item.name}</strong>
+                <i> Description: </i>
+                {item.description} .<i>Quantity:</i> {item.quantity} .
+                <i>Category: </i>
+                {item.category} <br />
+                <DeleteButton item={item} />
+                <EditButton onClick={openModal} item={item} />
+                {/* <button onClick={toggleHide}>Edit</button> */}
+                {/* <button onClick={() => openModal(item)}>Edit</button> */}
+              </li>
+            ))}
+        </section>
+      </div>
+    </>
   );
 }
 

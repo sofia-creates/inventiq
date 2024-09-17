@@ -197,7 +197,13 @@ h2 {
   font-weight: 550;
 }
 
+.modalBackgroundOverlay{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: red;
 
+}
 
 
 /* @tailwind base;
