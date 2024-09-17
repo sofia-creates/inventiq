@@ -2,69 +2,75 @@
 
 //importera grejer
 import { useState } from "react";
-
 import { ItemCategory } from "@/data/categories";
+import { useRouter } from "next/navigation";
+import { stringify } from "postcss";
 
 export default function EditFormModal({ item, isOpen, onClose }) {
   //Öppna och stänga modalen
   if (!isOpen) return null; //om modalen inte är öppen, rendera ingenting
 
+  const router = useRouter();
+  const [newName, setNewName] = useState(item.name);
+  const [category, setCategory] = useState(item.category);
+  const [quantity, setQuantity] = useState(item.quantity);
+  const [description, setDescription] = useState(item.description);
+
+  console.log("item i EditFormModal är: " + JSON.stringify(item));
+
   //hämta id för det aktuella itemet
 
-  //handsubmit(e) functkion som inkluderar en fetch
-
-  const handleSubmit = (e) => {
+  //handsubmit(e) function som inkluderar en fetch
+  const handleSubmit = (e, item) => {
     e.preventDefault();
 
+    console.log("item i handleSubmit är: " + JSON.stringify(item));
     //fetch här
+    editItem(item);
 
     onClose(); // Close the modal after form submission
   };
 
-  //   async function editItem() {
-  //     //Hitta rätt id
-  //     const itemToEditId = item.id;
+  async function editItem(item) {
+    //Hitta rätt id
+    const itemToEditId = item.id;
 
-  //     //Öppna formulär
+    console.log("item i editItem är: " + JSON.stringify(item.name));
 
-  //     //Fyll formulär med nuvarande datan mha en get request
-
-  //     // lägg följande fetch på submitknappen i formuläret
-
-  //     //Gör fetchen
-  //     const response = await fetch(
-  //       process.env.NEXT_PUBLIC_BASE_URL + "/api/items/" + itemToEditId,
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           name: updatedName,
-  //           description: updatedDescription,
-  //           quantity: updatedQuantity,
-  //           category: updatedCategory,
-  //         }),
-  //       }
-  //     );
-  //     if (response.ok) {
-  //       router.refresh();
-  //     }
-  //   }
+    //Gör fetchen
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_BASE_URL + "/api/items/" + itemToEditId,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          description,
+          quantity: Number(quantity),
+          category,
+        }),
+      }
+    );
+    if (response.ok) {
+      router.refresh();
+    }
+  }
 
   return (
     <div className="modalBackgroundOverlay">
       <div>
-        <h2>Edit item</h2>
-        <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={(e) => handleSubmit(e, item)} className="form">
+          <h2>Edit item</h2>
           <div className="form_group">
             <label className="form_label">Item name</label>
             <input
               type="text"
               className="form__input"
-              value={item.name} //fyll i vad det är här sedan innan sen också.
+              value={item.name} //fyller i vad det är här sedan innan
               onChange={(e) => {
-                setName(e.target.value);
+                setNewName(e.target.value);
               }}
             />
           </div>

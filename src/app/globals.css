@@ -201,7 +201,7 @@ h2 {
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background: red;
+  background: rgba(0, 0, 0, 0.75);
 
 }
 
