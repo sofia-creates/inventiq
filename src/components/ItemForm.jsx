@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth";
 import { ItemCategory } from "@/data/categories";
 
-function ItemForm() {
+function ItemForm({ updatingItems, setUpdatingItems }) {
   const auth = useAuth(); //för autentisering, ta bort eller lägg till senare
 
   const [name, setName] = useState("");
@@ -17,25 +17,31 @@ function ItemForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    //const router = useRouter();
 
-    const response = await fetch("/api/items", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify({
-        name,
-        description,
-        quantity,
-        category,
-      }),
-    });
+    try {
+      const response = await fetch("/api/items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.token}`,
+        },
+        body: JSON.stringify({
+          name,
+          description,
+          quantity: Number(quantity),
+          category,
+        }),
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      return;
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        //router.refresh();
+        return;
+      }
+    } catch (error) {
+      console.log("error in the post request is: ", error);
     }
   }
 
@@ -49,8 +55,8 @@ function ItemForm() {
 
   return (
     <div>
-      <h2>New item</h2>
       <form onSubmit={handleSubmit} className="form">
+        <h2>New item</h2>
         <div className="form_group">
           <label className="form_label">Item name</label>
           <input

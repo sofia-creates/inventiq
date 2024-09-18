@@ -25,7 +25,11 @@ import { useState, useEffect } from "react";
 //   };
 // }
 
-function ItemsContainer({ onEditButtonClick }) {
+function ItemsContainer({
+  onEditButtonClick,
+  updatingItems,
+  setUpdatingItems,
+}) {
   //öppna och stänga editmodal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -50,6 +54,8 @@ function ItemsContainer({ onEditButtonClick }) {
       setItems(itemsData);
       //console.log(items);
 
+      console.log("items i handlegetitems get request är: " + items);
+
       return items; // Return the fetched items
     } catch (error) {
       console.error("Failed to get items, error is:", error);
@@ -57,11 +63,18 @@ function ItemsContainer({ onEditButtonClick }) {
     }
   }
 
-  //kör hämtning av items
+  //kör hämtning av items vid montering av komponenten
   useEffect(() => {
     handleGetItems();
     console.log(items);
   }, []); //useeffect: när saken i bracketsen händer, är sann, gör saken inom måsvingar. är brackets tom så kör när componenten mountas aka renderas
+
+  //kör hämtning av items när de uppdaterats
+  useEffect(() => {
+    handleGetItems();
+    console.log(items);
+    setUpdatingItems(true);
+  }, [updatingItems]); //detta gör så att den hämtas igen när de uppdaterats, ett state som sätts vid delete, post och edit.
 
   // Function to open the modal
   const openModal = () => {
@@ -85,7 +98,8 @@ function ItemsContainer({ onEditButtonClick }) {
         item={item}
         isOpen={isModalOpen}
         onClose={closeModal}
-        // item={selectedItem}
+        updatingItems={updatingItems}
+        setUpdatingItems={setUpdatingItems}
       />
 
       <div className="flex min-h-screen flex-col items-center  p-24">
@@ -100,7 +114,11 @@ function ItemsContainer({ onEditButtonClick }) {
                 {item.description} .<i>Quantity:</i> {item.quantity} .
                 <i>Category: </i>
                 {item.category} <br />
-                <DeleteButton item={item} />
+                <DeleteButton
+                  updatingItems={updatingItems}
+                  setUpdatingItems={setUpdatingItems}
+                  item={item}
+                />
                 <EditButton onClick={() => handleEditClick(item)} />
                 {/* <button onClick={toggleHide}>Edit</button> */}
                 {/* <button onClick={() => openModal(item)}>Edit</button> */}

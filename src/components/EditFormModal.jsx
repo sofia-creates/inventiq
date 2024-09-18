@@ -6,7 +6,13 @@ import { ItemCategory } from "@/data/categories";
 import { useRouter } from "next/navigation";
 import { stringify } from "postcss";
 
-export default function EditFormModal({ item, isOpen, onClose }) {
+export default function EditFormModal({
+  item,
+  isOpen,
+  onClose,
+  updatingItems,
+  setUpdatingItems,
+}) {
   //Öppna och stänga modalen
   if (!isOpen) return null; //om modalen inte är öppen, rendera ingenting
 
@@ -16,7 +22,7 @@ export default function EditFormModal({ item, isOpen, onClose }) {
   const [quantity, setQuantity] = useState(item.quantity);
   const [description, setDescription] = useState(item.description);
 
-  console.log("item i EditFormModal är: " + JSON.stringify(item));
+  //console.log("item i EditFormModal är: " + JSON.stringify(item));
 
   //hämta id för det aktuella itemet
 
@@ -54,6 +60,7 @@ export default function EditFormModal({ item, isOpen, onClose }) {
       }
     );
     if (response.ok) {
+      setUpdatingItems(true);
       router.refresh();
     }
   }
@@ -68,7 +75,7 @@ export default function EditFormModal({ item, isOpen, onClose }) {
             <input
               type="text"
               className="form__input"
-              value={item.name} //fyller i vad det är här sedan innan
+              value={newName} //fyller i vad det är här sedan innan
               onChange={(e) => {
                 setNewName(e.target.value);
               }}
@@ -80,7 +87,7 @@ export default function EditFormModal({ item, isOpen, onClose }) {
             <input
               type="text"
               className="form__input"
-              value={item.description}
+              value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
@@ -92,7 +99,7 @@ export default function EditFormModal({ item, isOpen, onClose }) {
             <input
               type="number"
               className="form__input"
-              value={item.quantity}
+              value={quantity}
               onChange={(e) => {
                 setQuantity(e.target.value);
               }}

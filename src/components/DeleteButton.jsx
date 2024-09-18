@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-function DeleteButton({ item }) {
+function DeleteButton({ item, updatingItems, setUpdatingItems }) {
   const router = useRouter();
   async function deleteItem() {
     //Hitta rätt id
@@ -16,6 +16,7 @@ function DeleteButton({ item }) {
       }
     );
     if (response.ok) {
+      setUpdatingItems(true);
       router.refresh();
     }
   }
