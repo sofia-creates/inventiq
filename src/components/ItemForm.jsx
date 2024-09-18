@@ -49,8 +49,8 @@ function ItemForm() {
 
   return (
     <div>
-      <h2>New item</h2>
       <form onSubmit={handleSubmit} className="form">
+        <h2>New item</h2>
         <div className="form_group">
           <label className="form_label">Item name</label>
           <input

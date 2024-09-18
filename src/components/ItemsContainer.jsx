@@ -93,8 +93,8 @@ function ItemsContainer({ onEditButtonClick }) {
 
         <section className="flex flex-col items-center justify-center gap-2 itemList">
           {items &&
-            items.map((item) => (
-              <li>
+            items.map((item, i) => (
+              <li key={i}>
                 <strong>{item.name}</strong>
                 <i> Description: </i>
                 {item.description} .<i>Quantity:</i> {item.quantity} .
