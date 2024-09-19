@@ -42,14 +42,14 @@ export async function PUT(req, options) {
     // console.log("User making the req: ", userId)
 
     //validering
-    const [hasErrors, errors] = validateItemData(body);
-    if(hasErrors) {
-        return NextResponse.json({
-            message: errors
-        }, {
-            status: 400
-        })
-    }
+    // const [hasErrors, errors] = validateItemData(body);
+    // if(hasErrors) {
+    //     return NextResponse.json({
+    //         message: "validation errors: ", errors
+    //     }, {
+    //         status: 400
+    //     })
+    // }
 
 
     try {

@@ -73,7 +73,7 @@ function ItemsContainer({
   useEffect(() => {
     handleGetItems();
     console.log(items);
-    setUpdatingItems(true);
+    setUpdatingItems(false);
   }, [updatingItems]); //detta gör så att den hämtas igen när de uppdaterats, ett state som sätts vid delete, post och edit.
 
   // Function to open the modal

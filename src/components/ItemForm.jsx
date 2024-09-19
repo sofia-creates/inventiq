@@ -15,31 +15,48 @@ function ItemForm({ updatingItems, setUpdatingItems }) {
   const [category, setCategory] = useState("");
   const [error, setError] = useState("");
 
+  const router = useRouter();
+
   async function handleSubmit(e) {
     e.preventDefault();
-    //const router = useRouter();
+    console.log("handleSubmit körs");
+
+    //console.log(name, description, quantity, category);
+    let dataToSend = JSON.stringify({
+      name,
+      description,
+      quantity: Number(quantity),
+      category,
+    });
+    console.log(dataToSend);
 
     try {
-      const response = await fetch("/api/items", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify({
-          name,
-          description,
-          quantity: Number(quantity),
-          category,
-        }),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/items",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
+          body: JSON.stringify({
+            name,
+            description,
+            quantity: Number(quantity),
+            category,
+          }),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        //router.refresh();
+        router.refresh();
         return;
       }
+      // if (!response.ok) {
+      //   console.log("response is not ok");
+      // }
     } catch (error) {
       console.log("error in the post request is: ", error);
     }

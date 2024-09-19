@@ -49,8 +49,9 @@ export async function POST(req){
     //TODO: Validering av data här
     const [hasErrors, errors] = validateItemData(body);
     if(hasErrors) {
+        //console.log("validation errors")
         return NextResponse.json({
-            message: errors
+            message: "validation errors:" , errors
         }, {
             status: 400
         })

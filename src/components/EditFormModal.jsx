@@ -44,24 +44,28 @@ export default function EditFormModal({
     console.log("item i editItem är: " + JSON.stringify(item.name));
 
     //Gör fetchen
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + "/api/items/" + itemToEditId,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          description,
-          quantity: Number(quantity),
-          category,
-        }),
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/items/" + itemToEditId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            description,
+            quantity: Number(quantity),
+            category,
+          }),
+        }
+      );
+      if (response.ok) {
+        setUpdatingItems(true);
+        router.refresh();
       }
-    );
-    if (response.ok) {
-      setUpdatingItems(true);
-      router.refresh();
+    } catch (error) {
+      console.log("error in the put request is: ", error);
     }
   }
 
