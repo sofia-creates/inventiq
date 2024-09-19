@@ -87,7 +87,8 @@ export default function EditFormModal({
           </div>
 
           <div className="form_group">
-            <label className="form_label">Description</label>
+            <label className="form_label">Description*</label>
+            <p className="smallText">*Minimum 10 characters</p>
             <input
               type="text"
               className="form__input"

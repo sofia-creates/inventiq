@@ -51,7 +51,7 @@ export async function POST(req){
     if(hasErrors) {
         //console.log("validation errors")
         return NextResponse.json({
-            message: "validation errors:" , errors
+            message: "Validation errors: " + errors
         }, {
             status: 400
         })

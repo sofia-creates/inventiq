@@ -51,6 +51,7 @@ function ItemForm({ updatingItems, setUpdatingItems }) {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+        setUpdatingItems(true);
         router.refresh();
         return;
       }
@@ -88,6 +89,7 @@ function ItemForm({ updatingItems, setUpdatingItems }) {
 
         <div className="form_group">
           <label className="form_label">Description</label>
+          <p className="smallText">*Minimum 10 characters</p>
           <input
             type="text"
             className="form__input"

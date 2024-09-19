@@ -206,6 +206,12 @@ h2 {
 }
 
 
+.smallText {
+  font-size: 0.7em;
+  color: gray;
+}
+
+
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities;
