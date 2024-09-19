@@ -53,7 +53,7 @@ export default function EditFormModal({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name,
+            name: newName,
             description,
             quantity: Number(quantity),
             category,
