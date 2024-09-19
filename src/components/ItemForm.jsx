@@ -7,7 +7,7 @@ import { useAuth } from "@/context/auth";
 import { ItemCategory } from "@/data/categories";
 
 function ItemForm({ updatingItems, setUpdatingItems }) {
-  const auth = useAuth(); //för autentisering, ta bort eller lägg till senare
+  const auth = useAuth(); //för autentisering
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -19,16 +19,7 @@ function ItemForm({ updatingItems, setUpdatingItems }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log("handleSubmit körs");
-
-    //console.log(name, description, quantity, category);
-    let dataToSend = JSON.stringify({
-      name,
-      description,
-      quantity: Number(quantity),
-      category,
-    });
-    console.log(dataToSend);
+    //console.log("handleSubmit körs");
 
     try {
       const response = await fetch(
@@ -55,21 +46,10 @@ function ItemForm({ updatingItems, setUpdatingItems }) {
         router.refresh();
         return;
       }
-      // if (!response.ok) {
-      //   console.log("response is not ok");
-      // }
     } catch (error) {
       console.log("error in the post request is: ", error);
     }
   }
-
-  //  if(!auth.token){
-  //     return (
-  //         <div>
-  //             You have to be logged in to create an item!
-  //         </div>
-  //     )
-  //  } // ta tillbaka sen, just nu blockar den allt, LÖS!
 
   return (
     <div>
@@ -89,7 +69,7 @@ function ItemForm({ updatingItems, setUpdatingItems }) {
 
         <div className="form_group">
           <label className="form_label">Description</label>
-          <p className="smallText">*Minimum 10 characters</p>
+          <p className="smallText">*Minimum 5 characters</p>
           <input
             type="text"
             className="form__input"
@@ -121,7 +101,6 @@ function ItemForm({ updatingItems, setUpdatingItems }) {
                 id={option}
                 name="fruit"
                 value={option}
-                // checked={selectedOption === option}
                 onChange={(e) => {
                   setCategory(e.target.value);
                 }}

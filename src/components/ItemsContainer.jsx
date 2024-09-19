@@ -5,26 +5,6 @@ import { EditButton } from "./EditButton";
 import EditFormModal from "./EditFormModal";
 import { useState, useEffect } from "react";
 
-//// Server-side data fetching - to get around clientside & serverside issues
-// export async function getServerSideProps() {
-//   //hämta in itemslista
-//   const response = await fetch(
-//     process.env.NEXT_PUBLIC_BASE_URL + "/api/items",
-//     {
-//       cache: "no-cache",
-//     }
-//   )
-//     .then((response) => response.json())
-//     .catch((error) => {
-//       console.log("failed to get items, error is: ", error);
-//     });
-//   const items = await response.json();
-
-//   return {
-//     props: { items }, // Pass the items to the component as props
-//   };
-// }
-
 function ItemsContainer({
   onEditButtonClick,
   updatingItems,
@@ -52,7 +32,6 @@ function ItemsContainer({
 
       let itemsData = await response.json();
       setItems(itemsData);
-      //console.log(items);
 
       console.log("items i handlegetitems get request är: " + items);
 
@@ -120,8 +99,6 @@ function ItemsContainer({
                   item={item}
                 />
                 <EditButton onClick={() => handleEditClick(item)} />
-                {/* <button onClick={toggleHide}>Edit</button> */}
-                {/* <button onClick={() => openModal(item)}>Edit</button> */}
               </li>
             ))}
         </section>
@@ -131,39 +108,3 @@ function ItemsContainer({
 }
 
 export default ItemsContainer;
-
-//ARKIV, från inuti itemsocntainer
-//     async function fetchItems() {
-//         try {
-//             //get request till api/items
-//             const response = await fetch(process.env.NEXT_PUBLIC_BASE_URL+"/api/items", { //gör ett anrop till aktuella url:en som definierats ovan
-//                 method: "GET", //gör en POST request, den som definerats för urlens sida. det skapar även en TOKEN
-//             })
-//             console.log(response)
-
-//             if(!response.ok) {
-//                 throw new Error("Failed to fetch items");
-//             }
-
-//             const items = await response.json(); //Parsa responsen till json
-
-//         } catch (error) {
-//             console.error("Error fetching items:" , error);
-//         }
-//     }
-
-//     fetchItems();
-
-// return (
-//     //mappa igenom lista och skriv ut dem
-//     <ul>
-
-//         {items.map((item, index) => (
-//         <li key={index}>
-//         {item.name}
-//         <button>Edit</button> <button>Delete</button>
-//         </li>
-//   ))}
-
-//     </ul>
-// )

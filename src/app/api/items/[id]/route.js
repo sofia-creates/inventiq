@@ -17,7 +17,7 @@ export async function GET(req, options) {
         return NextResponse.json(item);
     } catch(error){
         console.log(error)
-        return NextResponse.json(error) //TODO: det här ska egentligen vara en object 404 response, men den ska länkas in. fixa senare
+        return NextResponse.json(error) 
     }
 }
 
@@ -37,10 +37,6 @@ export async function PUT(req, options) {
         })
     }
 
-    //TODO? kolla vilken användare som gör requesten?
-    // const userId = req.headers.get('userId')
-    // console.log("User making the req: ", userId)
-
     //validering
     const [hasErrors, errors] = validateItemData(body);
     if(hasErrors) {
@@ -58,7 +54,7 @@ export async function PUT(req, options) {
                 id: Number(id)
             },
             data: {
-                name: body.name, // undersök att använda optional här? ifall uppdateringen inte ska ändra alla värden?
+                name: body.name,
                 description: body.description,
                 quantity: body.quantity,
                 category: body.category
@@ -88,6 +84,6 @@ export async function DELETE(req, options) {
         })
     } catch(error) {
         console.log("error", error)
-        return NextResponse.json(error) //TODO: det här ska egentligen vara en object 404 response, men den ska länkas in. fixa senare
+        return NextResponse.json(error)
     }
 }

@@ -22,7 +22,6 @@ export async function GET(req){
     }
 
     return NextResponse.json(items);
-
 };
 
 
@@ -41,15 +40,9 @@ export async function POST(req){
         );
     }
 
-
-    // TODO: ev en check av vilken användare som gör detta
-    // const userId = req.headers.get('userId');
-    // console.log("User making the req: ", userId);
-
     //TODO: Validering av data här
     const [hasErrors, errors] = validateItemData(body);
     if(hasErrors) {
-        //console.log("validation errors")
         return NextResponse.json({
             message: "Validation errors: " + errors
         }, {

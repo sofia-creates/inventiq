@@ -7,8 +7,8 @@ export function validateItemData(data){
     if(!data.name){
         errors.name = "Name is required";
     }
-    if(!data.description || data.description.length < 10) {
-        errors.description = "Description has to be 10 chars or longer"
+    if(!data.description || data.description.length < 5) {
+        errors.description = "Description has to be 5 chars or longer"
     }
     if(data.quantity < 0) {
         errors.quantity = "Quantity must be 0 or higher"

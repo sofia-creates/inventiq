@@ -22,10 +22,6 @@ export default function EditFormModal({
   const [quantity, setQuantity] = useState(item.quantity);
   const [description, setDescription] = useState(item.description);
 
-  //console.log("item i EditFormModal är: " + JSON.stringify(item));
-
-  //hämta id för det aktuella itemet
-
   //handsubmit(e) function som inkluderar en fetch
   const handleSubmit = (e, item) => {
     e.preventDefault();
@@ -88,7 +84,7 @@ export default function EditFormModal({
 
           <div className="form_group">
             <label className="form_label">Description*</label>
-            <p className="smallText">*Minimum 10 characters</p>
+            <p className="smallText">*Minimum 5 characters</p>
             <input
               type="text"
               className="form__input"
@@ -140,5 +136,3 @@ export default function EditFormModal({
     </div>
   );
 }
-
-//export default EditFormModal;
